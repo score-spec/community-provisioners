@@ -9,6 +9,7 @@
     username: default
     password: {{ dig "password" .Init.randomPassword .State | quote }}
   outputs: |
+    name: {{ .State.service }}
     host: {{ .State.service }}
     port: {{ .Init.port }}
     username: {{ .State.username }}
