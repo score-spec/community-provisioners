@@ -1,0 +1,21 @@
+name: release
+permissions:
+  contents: read
+  id-token: write
+  packages: write
+on:
+  push:
+    tags:        
+      - 'v*'
+jobs:
+  release:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: oras login
+        run: |
+          echo ${{ secrets.GITHUB_TOKEN }} | oras login ghcr.io -u $ --password-stdin
+      - name: oras push
+        run: |
+          oras push ghcr.io/${{ github.repository_owner }}/score-compose:${{ github.ref_name }}
+          oras push ghcr.io/${{ github.repository_owner }}/score-k8s:${{ github.ref_name }}
