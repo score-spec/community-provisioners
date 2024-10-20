@@ -15,5 +15,9 @@ jobs:
           echo ${{ secrets.GITHUB_TOKEN }} | oras login ghcr.io -u ${{ github.actor }} --password-stdin
       - name: oras push
         run: |
-          oras push ghcr.io/${{ github.repository_owner }}/score-compose-community-provisioners:${{ github.ref_name }} $(ls ./score-compose/)
-          oras push ghcr.io/${{ github.repository_owner }}/score-k8s-community-provisioners:${{ github.ref_name }} $(ls ./score-k8s/)
+          cd ./score-compose/
+          oras push ghcr.io/${{ github.repository_owner }}/score-compose-community-provisioners:${{ github.ref_name }} $(ls)
+      - name: oras push
+        run: |
+          cd ./score-k8s/
+          oras push ghcr.io/${{ github.repository_owner }}/score-k8s-community-provisioners:${{ github.ref_name }} $(ls)
