@@ -1,8 +1,5 @@
 name: release
-permissions:
-  contents: read
-  id-token: write
-  packages: write
+permissions: write-all
 on:
   push:
     tags:        
