@@ -16,8 +16,9 @@ jobs:
       - name: oras push
         run: |
           cd ./score-compose/
-          oras push ghcr.io/${{ github.repository_owner }}/score-compose-community-provisioners:${{ github.ref_name }} $(ls)
-      - name: oras push
-        run: |
-          cd ./score-k8s/
-          oras push ghcr.io/${{ github.repository_owner }}/score-k8s-community-provisioners:${{ github.ref_name }} $(ls)
+          oras push ghcr.io/${{ github.repository_owner }}/score-compose-community-provisioners:${{ github.ref_name }} 00-service.provisioners.yaml
+          #oras push ghcr.io/${{ github.repository_owner }}/score-compose-community-provisioners:${{ github.ref_name }} $(ls)
+      #- name: oras push
+      #  run: |
+      #    cd ./score-k8s/
+      #    oras push ghcr.io/${{ github.repository_owner }}/score-k8s-community-provisioners:${{ github.ref_name }} $(ls)
