@@ -1,0 +1,2 @@
+- uri: template://hpa-provisioners/empty-hpa
+  type: horizontal-pod-autoscaler
