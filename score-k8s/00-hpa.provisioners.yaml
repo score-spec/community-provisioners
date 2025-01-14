@@ -4,7 +4,7 @@
     defaultMaxReplicas: 3
     defaultMinReplicas: 2
     absoluteMaxReplicas : 10
-    defaultTargetUtilizationPercent: 80
+    defaultTargetCPUUtilizationPercentage: 80
   manifests: |
     - apiVersion: autoscaling/v2
       kind: HorizontalPodAutoscaler
@@ -23,4 +23,4 @@
               name: cpu
               target:
                 type: Utilization
-                averageUtilization: {{ .Params.targetUtilizationPercent | default .Init.defaultTargetUtilizationPercent }}
+                averageUtilization: {{ .Params.targetCPUUtilizationPercentage | default .Init.defaultTargetCPUUtilizationPercentage }}
