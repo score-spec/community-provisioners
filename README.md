@@ -15,16 +15,16 @@ score-compose init \
 
 ## For `score-compose`
 
-| Type                        | Class     | Params  | Outputs |
-| --------------------------- | --------- | ------- | ------- |
-| `dapr-state-store`          | `redis`   | (none)  | `name`  |
-| `service`                   | `default` | (none)  | `name`  |
-| `horizontal-pod-autoscaler` | `default` | (none)  | (none)  |
+| Type                        | Class   | Params  | Outputs |
+| --------------------------- | ------- | ------- | ------- |
+| `dapr-state-store`          | `redis` | (none)  | `name`  |
+| `service`                   | (any)   | (none)  | `name`  |
+| `horizontal-pod-autoscaler` | (any)   | (none)  | (none)  |
 
 ## For `score-k8s`
 
-| Type                        | Class     | Params                                                                 | Outputs |
-| --------------------------- | --------- | ---------------------------------------------------------------------- | ------- |
-| `dapr-state-store`          | `redis`   | (none)                                                                 | `name`  |
-| `service`                   | `default` | (none)                                                                 | `name`  |
-| `horizontal-pod-autoscaler` | `default` | `minReplicas`, `maxReplicas`, `defaultTargetCPUUtilizationPercentage`  | (none)  |
+| Type                        | Class   | Params                                                                 | Outputs |
+| --------------------------- | ------- | ---------------------------------------------------------------------- | ------- |
+| `dapr-state-store`          | `redis` | (none)                                                                 | `name`  |
+| `service`                   | (any)   | (none)                                                                 | `name`  |
+| `horizontal-pod-autoscaler` | (any)   | `minReplicas`, `maxReplicas`, `defaultTargetCPUUtilizationPercentage`  | (none)  |
