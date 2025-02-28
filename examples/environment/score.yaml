@@ -1,0 +1,15 @@
+apiVersion: score.dev/v1b1
+containers:
+  main:
+    image: stefanprodan/podinfo
+    variables:
+      TEST: ${resources.env.TEST}
+metadata:
+  name: example
+service:
+  ports:
+    web:
+      port: 8080
+resources:
+  env:
+    type: environment
