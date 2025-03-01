@@ -18,13 +18,15 @@ score-compose init \
 | Type                        | Class   | Params  | Outputs |
 | --------------------------- | ------- | ------- | ------- |
 | `dapr-state-store`          | `redis` | (none)  | `name`  |
-| `service`                   | (any)   | (none)  | `name`  |
+| `environment`               | (any)   | (none)  | (none)  |
 | `horizontal-pod-autoscaler` | (any)   | (none)  | (none)  |
+| `service`                   | (any)   | (none)  | `name`  |
 
 ## For `score-k8s`
 
 | Type                        | Class   | Params                                                                 | Outputs |
 | --------------------------- | ------- | ---------------------------------------------------------------------- | ------- |
 | `dapr-state-store`          | `redis` | (none)                                                                 | `name`  |
-| `service`                   | (any)   | (none)                                                                 | `name`  |
+| `environment`               | (any)   | (none)                                                                 | (none)  |
 | `horizontal-pod-autoscaler` | (any)   | `minReplicas`, `maxReplicas`, `defaultTargetCPUUtilizationPercentage`  | (none)  |
+| `service`                   | (any)   | (none)                                                                 | `name`  |
