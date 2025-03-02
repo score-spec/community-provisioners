@@ -5,7 +5,8 @@ containers:
   main:
     image: stefanprodan/podinfo
     variables:
-      TEST: ${resources.env.TEST}
+      STATE_STORE: ${resources.state-store.name}
 resources:
-  env:
-    type: environment
+  state-store:
+    type: dapr-state-store
+    class: redis

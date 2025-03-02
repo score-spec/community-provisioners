@@ -5,7 +5,7 @@ containers:
   main:
     image: stefanprodan/podinfo
     variables:
-      TEST: ${resources.env.TEST}
+      DEP_NAME: ${resources.dep.name}
 resources:
-  env:
-    type: environment
+  dep:
+    type: service
