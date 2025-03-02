@@ -1,0 +1,12 @@
+apiVersion: score.dev/v1b1
+metadata:
+  name: example
+containers:
+  main:
+    image: stefanprodan/podinfo
+    variables:
+      STATE_STORE: ${resources.state-store.name}
+resources:
+  state-store:
+    type: dapr-state-store
+    class: redis
