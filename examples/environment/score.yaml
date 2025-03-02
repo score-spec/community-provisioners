@@ -1,15 +1,11 @@
 apiVersion: score.dev/v1b1
+metadata:
+  name: example
 containers:
   main:
     image: stefanprodan/podinfo
     variables:
       TEST: ${resources.env.TEST}
-metadata:
-  name: example
-service:
-  ports:
-    web:
-      port: 8080
 resources:
   env:
     type: environment
