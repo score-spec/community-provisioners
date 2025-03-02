@@ -1,0 +1,11 @@
+apiVersion: score.dev/v1b1
+metadata:
+  name: example
+containers:
+  main:
+    image: stefanprodan/podinfo
+    variables:
+      DEP_NAME: ${resources.dep.name}
+resources:
+  dep:
+    type: service

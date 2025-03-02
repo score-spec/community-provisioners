@@ -1,0 +1,6 @@
+apiVersion: score.dev/v1b1
+metadata:
+  name: dep
+containers:
+  main:
+    image: stefanprodan/podinfo
