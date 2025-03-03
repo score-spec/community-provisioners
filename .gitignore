@@ -4,3 +4,5 @@ manifests.yaml
 .score-compose/
 .score-k8s/
 helm-logs.txt
+helm-template.yaml
+outputs.json

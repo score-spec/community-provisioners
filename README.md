@@ -18,7 +18,8 @@ This is a library of additional provisioners that you can use with either `score
 | `10-redis-dapr-state-store.provisioners.yaml` | `dapr-state-store`          | `redis` | (none)                                                                 | `name`                                  |
 | `10-env.provisioners.yaml`                    | `environment`               | (any)   | (none)                                                                 | (none)                                  |
 | `10-hpa.provisioners.yaml`                    | `horizontal-pod-autoscaler` | (any)   | `minReplicas`, `maxReplicas`, `defaultTargetCPUUtilizationPercentage`  | (none)                                  |
-| `10-redis-helm.provisioners.yaml`             | `redis`                     | (any)   | (none)                                                                 | `host`, `port`, `username`, `password`  |
+| `10-redis-helm-template.provisioners.yaml`    | `redis`                     | (any)   | (none)                                                                 | `host`, `port`, `username`, `password`  |
+| `10-redis-helm-upgrade.provisioners.yaml`     | `redis`                     | (any)   | (none)                                                                 | `host`, `port`, `username`, `password`  |
 | `10-service.provisioners.yaml`                | `service`                   | (any)   | (none)                                                                 | `name`                                  |
 
 ## Examples
