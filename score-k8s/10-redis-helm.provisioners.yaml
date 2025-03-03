@@ -4,7 +4,8 @@
   - -c
   - |
     helm repo add bitnami https://charts.bitnami.com/bitnami > helm-logs.txt
-    helm upgrade -i redis bitnami/redis --set replica.replicaCount=1 -n ${NAMESPACE} --wait >> helm-logs.txt
-    REDIS_PASSWORD=$(kubectl get secret -n ${NAMESPACE} redis -o jsonpath="{.data.redis-password}" | base64 -d)
-    OUTPUTS='{"resource_outputs":{"host":"host", "port":"6379", "username":"", "password":"%s"},"manifests":[]}'
-    printf "$OUTPUTS" "$REDIS_PASSWORD"
+    SERVICE=redis
+    helm upgrade -i ${SERVICE} bitnami/redis --set replica.replicaCount=1 -n ${NAMESPACE} --wait >> helm-logs.txt
+    REDIS_PASSWORD=$(kubectl get secret -n ${NAMESPACE} ${SERVICE} -o jsonpath="{.data.redis-password}" | base64 -d)
+    OUTPUTS='{"resource_outputs":{"host":"%s-master", "port":"6379", "username":"", "password":"%s"},"manifests":[]}'
+    printf "$OUTPUTS" "$SERVICE" "$REDIS_PASSWORD"
