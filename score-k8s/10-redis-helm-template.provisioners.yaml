@@ -5,8 +5,9 @@
   - |
     helm repo add bitnami https://charts.bitnami.com/bitnami > helm-logs.txt
     SERVICE=redis
-    helm template ${SERVICE} bitnami/redis --set replica.replicaCount=1 > helm-template.yaml
-    REDIS_PASSWORD=$(yq '. | select(.kind == "Secret") | .data.redis-password' helm-template.yaml | base64 -d)
-    MANIFESTS_IN_JSON=$(yq ea '[.]' -o json -I=0 helm-template.yaml)
+    HELM_TEMPLATE_OUTPUT_TEMP_FILE=$(mktemp)
+    helm template ${SERVICE} bitnami/redis --set replica.replicaCount=1 > ${HELM_TEMPLATE_OUTPUT_TEMP_FILE}
+    REDIS_PASSWORD=$(yq '. | select(.kind == "Secret") | .data.redis-password' ${HELM_TEMPLATE_OUTPUT_TEMP_FILE} | base64 -d)
+    MANIFESTS_IN_JSON=$(yq ea '[.]' -o json -I=0 ${HELM_TEMPLATE_OUTPUT_TEMP_FILE})
     OUTPUTS='{"resource_outputs":{"host":"%s-master", "port":"6379", "username":"", "password":"%s"},"manifests":%s}'
     printf "$OUTPUTS" "$SERVICE" "$REDIS_PASSWORD" "$MANIFESTS_IN_JSON"
