@@ -8,7 +8,7 @@
     SERVICE=redis
     HELM_TEMPLATE_OUTPUT_TEMP_FILE=$(mktemp)
     helm template ${SERVICE} bitnami/redis --set replica.replicaCount=1 > ${HELM_TEMPLATE_OUTPUT_TEMP_FILE}
-    REDIS_PASSWORD=$(yq '. | select(.kind == "Secret") | .data.redis-password' ${HELM_TEMPLATE_OUTPUT_TEMP_FILE} | base64 -d)
     MANIFESTS_IN_JSON=$(yq ea '[.]' -o json -I=0 ${HELM_TEMPLATE_OUTPUT_TEMP_FILE})
-    OUTPUTS='{"resource_outputs":{"host":"%s-master", "port":"6379", "username":"", "password":"%s"},"manifests":%s}'
-    printf "$OUTPUTS" "$SERVICE" "$REDIS_PASSWORD" "$MANIFESTS_IN_JSON"
+    PASSWORD_REFERENCE=$(echo ${SERVICE} | base64).$(echo redis-password | base64)
+    OUTPUTS='{"resource_outputs":{"host":"%s-master", "port":"6379", "username":"", "password":"🔐💬%s💬🔐"},"manifests":%s}'
+    printf "$OUTPUTS" "$SERVICE" "$PASSWORD_REFERENCE" "$MANIFESTS_IN_JSON"
