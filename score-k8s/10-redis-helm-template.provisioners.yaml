@@ -1,4 +1,4 @@
-- uri: cmd://bash#helm-redis
+- uri: cmd://bash#helm-template-redis
   type: redis
   args:
   - -c
