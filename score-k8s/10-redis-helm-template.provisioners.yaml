@@ -3,7 +3,8 @@
   args:
   - -c
   - |
-    helm repo add bitnami https://charts.bitnami.com/bitnami > helm-logs.txt
+    set -eu -o pipefail
+    helm repo add bitnami https://charts.bitnami.com/bitnami >&2
     SERVICE=redis
     HELM_TEMPLATE_OUTPUT_TEMP_FILE=$(mktemp)
     helm template ${SERVICE} bitnami/redis --set replica.replicaCount=1 > ${HELM_TEMPLATE_OUTPUT_TEMP_FILE}
