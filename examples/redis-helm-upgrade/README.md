@@ -9,6 +9,4 @@ score-k8s init --provisioners ../../score-k8s/10-redis-helm-upgrade.provisioners
 export NAMESPACE=default
 
 score-k8s generate score.yaml
-
-kubectl apply -f manifests.yaml -n ${NAMESPACE}
 ```

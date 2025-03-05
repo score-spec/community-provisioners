@@ -3,9 +3,10 @@
   args:
   - -c
   - |
+    STDIN=$(cat)
+    SERVICE=$(echo $STDIN | yq eval -p json '.resource_id' | yq '. |= sub("\.", "")' | yq '. |= sub("-", "")')
     set -eu -o pipefail
     helm repo add bitnami https://charts.bitnami.com/bitnami >&2
-    SERVICE=redis
     HELM_TEMPLATE_OUTPUT_TEMP_FILE=$(mktemp)
     helm template ${SERVICE} bitnami/redis --set replica.replicaCount=1 > ${HELM_TEMPLATE_OUTPUT_TEMP_FILE}
     MANIFESTS_IN_JSON=$(yq ea '[.]' -o json -I=0 ${HELM_TEMPLATE_OUTPUT_TEMP_FILE})
