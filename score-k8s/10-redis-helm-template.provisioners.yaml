@@ -4,12 +4,11 @@
   - -c
   - |
     STDIN=$(cat)
-    SERVICE=$(echo $STDIN | yq eval -p json '.resource_id' | yq '. |= sub("\.", "")' | yq '. |= sub("-", "")')
+    SERVICE=$(echo $STDIN | yq eval -p json '.resource_id' | yq '. |= sub("\.", "-")')
     set -eu -o pipefail
     helm repo add bitnami https://charts.bitnami.com/bitnami >&2
     HELM_TEMPLATE_OUTPUT_TEMP_FILE=$(mktemp)
     helm template ${SERVICE} bitnami/redis --set replica.replicaCount=1 > ${HELM_TEMPLATE_OUTPUT_TEMP_FILE}
     MANIFESTS_IN_JSON=$(yq ea '[.]' -o json -I=0 ${HELM_TEMPLATE_OUTPUT_TEMP_FILE})
-    PASSWORD_REFERENCE=$(echo ${SERVICE} | base64).$(echo redis-password | base64)
-    OUTPUTS='{"resource_outputs":{"host":"%s-master", "port":"6379", "username":"", "password":"🔐💬%s💬🔐"},"manifests":%s}'
-    printf "$OUTPUTS" "$SERVICE" "$PASSWORD_REFERENCE" "$MANIFESTS_IN_JSON"
+    OUTPUTS='{"resource_outputs":{"host":"%s-master", "port":"6379", "username":"", "password":"🔐💬%s_redis-password💬🔐"},"manifests":%s}'
+    printf "$OUTPUTS" "$SERVICE" "$SERVICE" "$MANIFESTS_IN_JSON"
