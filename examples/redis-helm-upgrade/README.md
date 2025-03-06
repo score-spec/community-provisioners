@@ -4,7 +4,8 @@ Prerequisites:
     - If you don't have one, you can deploy a `Kind` cluster locally by running this script: `../../scripts/setup-kind-cluster.sh`.
 
 ```bash
-score-k8s init --provisioners ../../score-k8s/10-redis-helm-upgrade.provisioners.yaml
+score-k8s init --provisioners https://raw.githubusercontent.com/score-spec/community-provisioners/refs/heads/main/score-k8s/10-redis-helm-upgrade.provisioners.yaml
+# Other option: score-k8s init --provisioners ../../score-k8s/10-redis-helm-upgrade.provisioners.yaml
 
 export NAMESPACE=default
 
