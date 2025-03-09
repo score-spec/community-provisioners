@@ -15,7 +15,7 @@
     name: {{ .State.serviceName }}
   # write the config file to the mounts directory
   files: |
-    dapr-components/{{ .State.serviceName }}.yaml: |
+    components/{{ .State.serviceName }}.yaml: |
       apiVersion: dapr.io/v1alpha1
       kind: Component
       metadata:
