@@ -1,6 +1,6 @@
 - uri: template://default-provisioners/redis
   type: dapr-state-store
-  class: redis
+  class: default
   init: |
     randomPassword: {{ randAlphaNum 16 | quote }}
     port: 6379
