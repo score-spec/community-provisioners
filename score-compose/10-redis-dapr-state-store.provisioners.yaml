@@ -13,6 +13,8 @@
   # Return the outputs schema that consumers expect
   outputs: |
     name: {{ .State.serviceName }}
+  expected_outputs:
+    - name
   # write the config file to the mounts directory
   files: |
     components/{{ .State.serviceName }}.yaml: |
