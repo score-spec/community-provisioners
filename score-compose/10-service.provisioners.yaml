@@ -5,3 +5,5 @@
   outputs: |
     {{ $w := (index .WorkloadServices .Init.name) }}
     name: {{ $w.ServiceName | quote }}
+  expected_outputs:
+    - name
