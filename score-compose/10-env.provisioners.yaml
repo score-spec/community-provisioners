@@ -1,5 +1,6 @@
 - uri: cmd://python3#dotenv
   type: environment
+  description: Loads environment variables from a local .env file.
   args:
   - -c
   - |
