@@ -1,7 +1,7 @@
 - uri: template://default-provisioners/redis-dapr-state-store
   type: dapr-state-store
   description: Generates a Redis Service and a Dapr's Component in the dapr-components folder pointing to this Redis Service.
-  class: redis
+  class: default
   # Init template has the default port and a random service name and password if needed later
   init: |
     port: 6379
@@ -14,9 +14,11 @@
   # Return the outputs schema that consumers expect
   outputs: |
     name: {{ .State.serviceName }}
+  expected_outputs:
+    - name
   # write the config file to the mounts directory
   files: |
-    dapr-components/{{ .State.serviceName }}.yaml: |
+    components/{{ .State.serviceName }}.yaml: |
       apiVersion: dapr.io/v1alpha1
       kind: Component
       metadata:

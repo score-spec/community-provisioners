@@ -9,4 +9,3 @@ containers:
 resources:
   state-store:
     type: dapr-state-store
-    class: redis
