@@ -1,4 +1,4 @@
-- uri: template://service-provisioners/static-service
+- uri: template://community-provisioners/static-service
   type: service
   init: |
     name: {{ splitList "." .Id | last }}

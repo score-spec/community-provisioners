@@ -1,4 +1,4 @@
-- uri: template://service-provisioners/static-service
+- uri: template://community-provisioners/static-service
   type: service
   description: Returns the name of the Workload dependency if it exists in the list of Workloads.
   init: |
