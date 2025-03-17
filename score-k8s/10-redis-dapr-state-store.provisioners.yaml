@@ -1,4 +1,4 @@
-- uri: template://default-provisioners/redis
+- uri: template://community-provisioners/redis
   type: dapr-state-store
   class: default
   init: |

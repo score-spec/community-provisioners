@@ -1,4 +1,4 @@
-- uri: template://default-provisioners/redis-dapr-state-store
+- uri: template://community-provisioners/redis-dapr-state-store
   type: dapr-state-store
   description: Generates a Redis Service and a Dapr StateStore Component pointing to this Redis Service.
   class: default

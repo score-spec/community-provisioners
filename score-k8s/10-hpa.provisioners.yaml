@@ -1,4 +1,4 @@
-- uri: template://hpa-provisioners/default-hpa
+- uri: template://community-provisioners/default-hpa
   type: horizontal-pod-autoscaler
   init: |
     defaultMaxReplicas: 3
