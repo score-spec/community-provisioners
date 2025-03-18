@@ -1,16 +1,10 @@
 - uri: template://community-provisioners/rabbitmq-dapr-pubsub
   type: dapr-pubsub
   init: |
-    randomVHost: vhost-{{ randAlpha 8 }}
-    randomUsername: user-{{ randAlpha 8 }}
-    randomPassword: {{ randAlphaNum 16 | quote }}
     port: 5672
     managementPort: 15672
   state: |
     service: rabbitmq-{{ .SourceWorkload }}-{{ substr 0 8 .Guid | lower }}
-    vhost: {{ dig "vhost" .Init.randomVHost .State | quote }}
-    username: {{ dig "username" .Init.randomUsername .State | quote }}
-    password: {{ dig "password" .Init.randomPassword .State | quote }}
   outputs: |
     name: {{ .State.service }}
   manifests: |
@@ -22,32 +16,8 @@
         type: pubsub.rabbitmq
         version: v1
         metadata:
-        - name: connectionString
+        - name: host
           value: "amqp://{{ .State.service }}:{{ .Init.port }}"
-        - name: protocol
-          value: amqp
-        - name: hostname
-          value: {{ .State.service }}
-        - name: username
-          value: {{ .State.username }}
-        - name: password
-          value: {{ .State.password }}
-    - apiVersion: v1
-      kind: Secret
-      metadata:
-        name: {{ .State.service }}-secret
-        annotations:
-          k8s.score.dev/source-workload: {{ .SourceWorkload }}
-          k8s.score.dev/resource-uid: {{ .Uid }}
-          k8s.score.dev/resource-guid: {{ .Guid }}
-        labels:
-          app.kubernetes.io/managed-by: score-k8s
-          app.kubernetes.io/name: {{ .State.service }}-secret
-          app.kubernetes.io/instance: {{ .State.service }}
-      data:
-        RABBITMQ_DEFAULT_VHOST: {{ .State.vhost | b64enc }}
-        RABBITMQ_DEFAULT_USER: {{ .State.username | b64enc }}
-        RABBITMQ_DEFAULT_PASS: {{ .State.password | b64enc }}
     - apiVersion: apps/v1
       kind: StatefulSet
       metadata:
@@ -75,15 +45,12 @@
           spec:
             containers:
               - name: rabbitmq
-                image: rabbitmq:3-management
+                image: rabbitmq:3-management-alpine
                 ports:
                   - name: amqp
                     containerPort: {{ .Init.port }}
                   - name: management
                     containerPort: {{ .Init.managementPort }}
-                envFrom:
-                  - secretRef:
-                      name: {{ .State.service }}-secret
                 volumeMounts:
                   - name: data
                     mountPath: /var/lib/rabbitmq
