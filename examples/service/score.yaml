@@ -3,7 +3,7 @@ metadata:
   name: example
 containers:
   main:
-    image: stefanprodan/podinfo
+    image: ghcr.io/stefanprodan/podinfo:latest
     variables:
       DEP_NAME: ${resources.dep.name}
 resources:

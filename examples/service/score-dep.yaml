@@ -3,4 +3,4 @@ metadata:
   name: dep
 containers:
   main:
-    image: stefanprodan/podinfo
+    image: ghcr.io/stefanprodan/podinfo:latest

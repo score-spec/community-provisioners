@@ -45,7 +45,7 @@
           spec:
             containers:
               - name: rabbitmq
-                image: rabbitmq:3-management-alpine
+                image: mirror.gcr.io/rabbitmq:3-management-alpine
                 ports:
                   - name: amqp
                     containerPort: {{ .Init.port }}
