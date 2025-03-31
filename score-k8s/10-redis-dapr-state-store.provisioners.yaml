@@ -62,7 +62,7 @@
             automountServiceAccountToken: false
             containers:
             - name: redis
-              image: redis:7-alpine
+              image: mirror.gcr.io/redis:7-alpine
               securityContext:
                 allowPrivilegeEscalation: false
                 capabilities:
