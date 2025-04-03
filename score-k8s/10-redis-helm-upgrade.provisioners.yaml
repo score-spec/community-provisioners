@@ -14,3 +14,8 @@
     helm upgrade -i ${SERVICE} bitnami/redis --set replica.replicaCount=1 -n ${NAMESPACE} --wait >&2
     OUTPUTS='{"resource_outputs":{"host":"%s-master", "port":"6379", "username":"", "password":"🔐💬%s_redis-password💬🔐"},"manifests":[]}'
     printf "$OUTPUTS" "$SERVICE" "$SERVICE"
+  expected_outputs: 
+    - host 
+    - port 
+    - username 
+    - password
