@@ -1,9 +1,11 @@
-name: test
+name: ci
 permissions:
   contents: read
 on:
   pull_request:
-
+  push:
+    branches:
+      - main
 jobs:
   test-score-environment:
     runs-on: ubuntu-latest
