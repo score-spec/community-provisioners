@@ -114,6 +114,9 @@ jobs:
           file: ${{ matrix.score-target }}
           version: latest
           token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Prepare Kind cluster
+        run: |
+          ./scripts/setup-kind-cluster.sh
       - name: Generate
         run: |
           export NAMESPACE=default
