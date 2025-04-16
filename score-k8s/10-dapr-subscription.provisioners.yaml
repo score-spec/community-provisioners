@@ -1,11 +1,17 @@
 - uri: template://community-provisioners/dapr-subscription
   type: dapr-subscription
   class: default
+  supported_params:
+    - topic
+    - pubsub
   state: |
     name: {{ .Params.topic }}-subscription-{{ substr 0 8 .Guid | lower }}
   outputs: |
     name: {{ .State.name }}
     topic: {{ .Params.topic }}
+  expected_outputs:
+    - name
+    - topic
   manifests: |
     - apiVersion: dapr.io/v2alpha1
       kind: Subscription
