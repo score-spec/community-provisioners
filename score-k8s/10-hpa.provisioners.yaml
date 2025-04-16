@@ -1,5 +1,10 @@
 - uri: template://community-provisioners/default-hpa
   type: horizontal-pod-autoscaler
+  description: Generates an HorizontalPodAutoscaler manifest.
+  supported_params:
+    - maxReplicas
+    - minReplicas
+    - targetCPUUtilizationPercentage
   init: |
     defaultMaxReplicas: 3
     defaultMinReplicas: 2

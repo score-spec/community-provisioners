@@ -7,6 +7,8 @@
     service: rabbitmq-{{ .SourceWorkload }}-{{ substr 0 8 .Guid | lower }}
   outputs: |
     name: {{ .State.service }}
+  expected_outputs:
+    - name
   manifests: |
     - apiVersion: dapr.io/v1alpha1
       kind: Component

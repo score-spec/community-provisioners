@@ -1,6 +1,6 @@
 - uri: template://community-provisioners/redis-dapr-pubsub
-  description: Generates a Redis Service and a Dapr PubSub Component pointing to this Redis Service.
   type: dapr-pubsub
+  description: Generates a Redis Service and a Dapr PubSub Component pointing to this Redis Service.
   class: default
   init: |
     port: 6379

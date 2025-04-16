@@ -1,6 +1,6 @@
 - uri: template://community-provisioners/dapr-subscription
   type: dapr-subscription
-  class: default
+  description: Generates a Dapr Subscription on a given Topic and PubSub.
   supported_params:
     - topic
     - pubsub

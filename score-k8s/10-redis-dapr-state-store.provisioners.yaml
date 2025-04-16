@@ -10,6 +10,8 @@
     password: {{ dig "password" .Init.randomPassword .State | quote }}
   outputs: |
     name: {{ .State.service }}
+  expected_outputs:
+    - name
   manifests: |
     - apiVersion: v1
       kind: Secret

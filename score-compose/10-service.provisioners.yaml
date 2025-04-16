@@ -1,6 +1,6 @@
 - uri: template://community-provisioners/static-service
   type: service
-  description: Returns the name of the Workload dependency if it exists in the list of Workloads.
+  description: Outputs the name of the Workload dependency if it exists in the list of Workloads.
   init: |
     name: {{ splitList "." .Id | last }}
   outputs: |
