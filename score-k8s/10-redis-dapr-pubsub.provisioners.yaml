@@ -1,5 +1,6 @@
 - uri: template://community-provisioners/redis-dapr-pubsub
   type: dapr-pubsub
+  description: Generates a Dapr PubSub Component pointing to a Redis StatefulSet.
   init: |
     randomPassword: {{ randAlphaNum 16 | quote }}
     port: 6379

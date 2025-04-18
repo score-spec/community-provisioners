@@ -1,5 +1,6 @@
 - uri: template://community-provisioners/route-with-shared-gateway
   type: route
+  description: Generates an HTTPRoute attached to a default Gateway in default Namespace.
   supported_params:
     - path
     - host

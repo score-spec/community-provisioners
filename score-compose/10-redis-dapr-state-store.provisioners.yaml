@@ -1,6 +1,6 @@
 - uri: template://community-provisioners/redis-dapr-state-store
   type: dapr-state-store
-  description: Generates a Redis Service and a Dapr StateStore Component pointing to this Redis Service.
+  description: Generates a Dapr StateStore Component pointing to a Redis Service.
   init: |
     port: 6379
     randomServiceName: redis-{{ randAlphaNum 6 }}

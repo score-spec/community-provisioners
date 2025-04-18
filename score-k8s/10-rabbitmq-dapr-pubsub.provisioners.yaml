@@ -1,5 +1,6 @@
 - uri: template://community-provisioners/rabbitmq-dapr-pubsub
   type: dapr-pubsub
+  description: Generates a Dapr PubSub Component pointing to a RabbitMQ StatefulSet.
   init: |
     port: 5672
     managementPort: 15672

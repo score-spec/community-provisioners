@@ -1,5 +1,6 @@
 - uri: cmd://bash#helm-upgrade-redis
   type: redis
+  description: Deploys the bitnami/redis Helm chart in an existing cluster. 
   args:
   - -c
   - |
