@@ -1,21 +1,17 @@
 - uri: template://community-provisioners/redis-dapr-state-store
   type: dapr-state-store
-  description: Generates a Redis Service and a Dapr StateStore Component pointing to this Redis Service.
-  # Init template has the default port and a random service name and password if needed later
+  description: Generates a Dapr StateStore Component pointing to a Redis Service.
   init: |
     port: 6379
     randomServiceName: redis-{{ randAlphaNum 6 }}
     randomPassword: {{ randAlphaNum 16 | quote }}
-  # The only state we need to persist is the chosen random service name and password
   state: |
     serviceName: {{ dig "serviceName" .Init.randomServiceName .State | quote }}
     password: {{ dig "password" .Init.randomPassword .State | quote }}
-  # Return the outputs schema that consumers expect
   outputs: |
     name: {{ .State.serviceName }}
   expected_outputs:
     - name
-  # write the config file to the mounts directory
   files: |
     components/{{ .State.serviceName }}.yaml: |
       apiVersion: dapr.io/v1alpha1
@@ -35,14 +31,12 @@
       port {{ .Init.port }}
       save 60 1
       loglevel warning
-  # add a volume for persistence of the redis data
   volumes: |
     {{ .State.serviceName }}-data:
       name: {{ .State.serviceName }}-data
       driver: local
       labels:
         dev.score.compose.res.uid: {{ .Uid }}
-  # And the redis service itself with volumes bound in
   services: |
     {{ .State.serviceName }}:
       labels:

@@ -1,5 +1,6 @@
 - uri: cmd://bash#helm-template-redis
   type: redis
+  description: Generates the manifests of the bitnami/redis Helm chart.
   args:
   - -c
   - |
@@ -16,3 +17,8 @@
     MANIFESTS_IN_JSON=$(yq ea '[.]' -o json -I=0 ${HELM_TEMPLATE_OUTPUT_TEMP_FILE})
     OUTPUTS='{"resource_outputs":{"host":"%s-master", "port":"6379", "username":"", "password":"🔐💬%s_redis-password💬🔐"},"manifests":%s}'
     printf "$OUTPUTS" "$SERVICE" "$SERVICE" "$MANIFESTS_IN_JSON"
+  expected_outputs: 
+    - host 
+    - port 
+    - username 
+    - password

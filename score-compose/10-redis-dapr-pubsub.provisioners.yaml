@@ -1,7 +1,6 @@
 - uri: template://community-provisioners/redis-dapr-pubsub
-  description: Generates a Redis Service and a Dapr PubSub Component pointing to this Redis Service.
   type: dapr-pubsub
-  class: default
+  description: Generates a Dapr PubSub Component pointing to a Redis Service.
   init: |
     port: 6379
     randomServiceName: redis-{{ randAlphaNum 6 }}

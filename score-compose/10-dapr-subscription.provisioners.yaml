@@ -1,6 +1,9 @@
 - uri: template://community-provisioners/dapr-subscription
-  description: Generates a Dapr Subscription on a given Topic and PubSub.
   type: dapr-subscription
+  description: Generates a Dapr Subscription on a given Topic and PubSub.
+  supported_params:
+    - topic
+    - pubsub
   init: |
     subscriptionName: {{ .Params.topic }}-subscription-{{ randAlphaNum 6 }}
   state: |

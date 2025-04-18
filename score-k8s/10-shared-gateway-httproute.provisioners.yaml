@@ -1,5 +1,10 @@
 - uri: template://community-provisioners/route-with-shared-gateway
   type: route
+  description: Generates an HTTPRoute attached to a default Gateway in default Namespace.
+  supported_params:
+    - path
+    - host
+    - port
   init: |
     {{ if not (regexMatch "^/|(/([^/]+))+$" .Params.path) }}{{ fail "params.path start with a / but cannot end with /" }}{{ end }}
     {{ if not (regexMatch "^[a-z0-9_.-]{1,253}$" .Params.host) }}{{ fail (cat "params.host must be a valid hostname but was" .Params.host) }}{{ end }}

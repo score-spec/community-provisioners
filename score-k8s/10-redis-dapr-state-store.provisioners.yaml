@@ -1,6 +1,6 @@
 - uri: template://community-provisioners/redis
   type: dapr-state-store
-  class: default
+  description: Generates a Dapr StateStore Component pointing to a Redis StatefulSet.
   init: |
     randomPassword: {{ randAlphaNum 16 | quote }}
     port: 6379
@@ -10,10 +10,8 @@
     password: {{ dig "password" .Init.randomPassword .State | quote }}
   outputs: |
     name: {{ .State.service }}
-    host: {{ .State.service }}
-    port: {{ .Init.port }}
-    username: {{ .State.username }}
-    password: {{ encodeSecretRef .State.service "password" }}
+  expected_outputs:
+    - name
   manifests: |
     - apiVersion: v1
       kind: Secret
