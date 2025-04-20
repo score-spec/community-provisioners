@@ -5,6 +5,7 @@
     name: {{ splitList "." .Id | last }}
   outputs: |
     {{ $w := (index .WorkloadServices .Init.name) }}
+    {{ if or (not $w) (not $w.ServiceName) }}{{ fail "unknown workload" }}{{ end }}
     name: {{ $w.ServiceName | quote }}
   expected_outputs: 
     - name
