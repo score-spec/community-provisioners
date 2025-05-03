@@ -1,11 +1,11 @@
 apiVersion: score.dev/v1b1
 metadata:
-  name: example
+  name: frontend
 containers:
   main:
     image: ghcr.io/stefanprodan/podinfo:latest
     variables:
-      DEP_NAME: ${resources.dep.name}
+      BACKEND_SVC: ${resources.backend.name}
 resources:
-  dep:
+  backend:
     type: service
