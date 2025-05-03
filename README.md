@@ -1,15 +1,8 @@
 # community-provisioners
 
 TODOs:
-- Multiple provisioners files:
-    - redis
-    - dapr-pub-sub
-- OCI image
-- New README/Score
-  - route
-  - redis
-  - dapr-subscription
-  - dapr-pubsub
+- [ ] Fix OCI image
+- [ ] Regenerate main `README.md`
 
 This is a library of additional provisioners that you can use with either `score-compose` or `score-k8s`.
 
