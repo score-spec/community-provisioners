@@ -1,22 +1,9 @@
 # community-provisioners
 
-Thoughts:
-- Tags:
-    - `implementation`: `score-compose`|`score-k8s`
-    - `provisioner type`: `template`|`python`|`helm`|`terraform`|`microcks-cli`
-    - `resource type`: `environment`|`dapr-pubsub`|`redis`
-- Display the `description`, `expected_outputs` and `supported_params`
-- Maybe we don't want the default provisioners in the Hub, just the community ones?
-- Add a comment header for each provisioner file where we could add more metadata? Like for other information not easy to supply/retrieve in addition to the ones above? Examples:
-  - `valkey` falvor for `redis`
-  - `rabbitmq` or `postgres` or `redis` for `dapr-state-store` or `dapr-pub-sub`
-- Is the README required? Could we generate the command generically? And maybe if requirement/prerequisites, we could add a comment header for metadata?
-
 TODOs:
 - Multiple provisioners files:
     - redis
     - dapr-pub-sub
-- CI
 - OCI image
 - New README/Score
   - route

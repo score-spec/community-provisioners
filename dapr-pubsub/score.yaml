@@ -9,12 +9,12 @@ containers:
   main:
     image: ghcr.io/stefanprodan/podinfo:latest
     variables:
-      PUBSUB_NAME: "${resources.state-store.name}"
+      PUBSUB_NAME: "${resources.pubsub.name}"
 service:
   ports:
     tcp:
       port: 3000
       targetPort: 3000
 resources:
-  state-store:
-    type: dapr-state-store
+  pubsub:
+    type: dapr-pubsub
