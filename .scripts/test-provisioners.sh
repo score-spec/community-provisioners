@@ -16,7 +16,7 @@ do
       echo "###### With ${provisioner}:"
       ${implementation%?} init --no-sample --provisioners $provisioner
       export NAMESPACE=default
-      ${implementation%?} generate $(ls score*.yaml)
+      ${implementation%?} generate $(ls score*.yaml) --image busybox
       rm -r .${implementation%?}
     done
   done

@@ -3,7 +3,7 @@ metadata:
   name: frontend
 containers:
   main:
-    image: ghcr.io/stefanprodan/podinfo:latest
+    image: .
     variables:
       BACKEND_SVC: ${resources.backend.name}
 resources:

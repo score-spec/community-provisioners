@@ -1,9 +1,5 @@
 # community-provisioners
 
-TODOs:
-- [ ] Fix OCI image
-- [ ] Regenerate main `README.md`
-
 This is a library of additional provisioners that you can use with either `score-compose` or `score-k8s`.
 
 ## For `score-compose`
