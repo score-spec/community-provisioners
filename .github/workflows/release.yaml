@@ -2,7 +2,7 @@ name: release
 permissions: write-all
 on:
   push:
-    tags:        
+    tags:
       - 'v*'
 jobs:
   release:
@@ -13,11 +13,21 @@ jobs:
       - name: oras login
         run: |
           echo ${{ secrets.GITHUB_TOKEN }} | oras login ghcr.io -u ${{ github.actor }} --password-stdin
-      - name: oras push
+      - name: oras push score-compose
         run: |
-          cd ./score-compose/
-          oras push ghcr.io/${{ github.repository_owner }}/score-compose-community-provisioners:${{ github.ref_name }},latest $(ls)
-      - name: oras push
+          mkdir compose
+          provisioners=$(find -name *.provisioners.yaml | grep /score-compose)
+          for provisioner in $provisioners;
+          do
+            cp $provisioner compose/
+          done
+          oras push ghcr.io/${{ github.repository_owner }}/score-compose-community-provisioners:${{ github.ref_name }},latest $(ls compose/)
+      - name: oras push score-k8s
         run: |
-          cd ./score-k8s/
-          oras push ghcr.io/${{ github.repository_owner }}/score-k8s-community-provisioners:${{ github.ref_name }},latest $(ls)
+          mkdir k8s
+          provisioners=$(find -name *.provisioners.yaml | grep /score-k8s)
+          for provisioner in $provisioners;
+          do
+            cp $provisioner k8s/
+          done
+          oras push ghcr.io/${{ github.repository_owner }}/score-k8s-community-provisioners:${{ github.ref_name }},latest $(ls k8s/)
