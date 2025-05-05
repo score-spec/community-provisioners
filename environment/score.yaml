@@ -1,8 +1,8 @@
 apiVersion: score.dev/v1b1
 metadata:
-  name: example
+  name: my-workload
 containers:
-  main:
+  my-container:
     image: busybox
     command: ["/bin/sh"]
     args: ["-c", "while true; do echo $TEST; cat /file.txt; sleep 5; done"]
@@ -11,7 +11,7 @@ containers:
     files:
       - target: /file.txt
         mode: "0644"
-        content: "${resources.env.TEST} in file."
+        content: "${resources.env.TEST} in file.\n"
 resources:
   env:
     type: environment

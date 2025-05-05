@@ -2,5 +2,7 @@ apiVersion: score.dev/v1b1
 metadata:
   name: backend
 containers:
-  main:
-    image: .
+  my-container:
+    image: busybox
+    command: ["/bin/sh"]
+    args: ["-c", "while true; do echo Hello Backend; sleep 5; done"]

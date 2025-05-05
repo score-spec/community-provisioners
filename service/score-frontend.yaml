@@ -2,10 +2,12 @@ apiVersion: score.dev/v1b1
 metadata:
   name: frontend
 containers:
-  main:
-    image: .
+  my-container:
+    image: busybox
+    command: ["/bin/sh"]
+    args: ["-c", "while true; do echo $BACKEND_SVC; sleep 5; done"]
     variables:
-      BACKEND_SVC: ${resources.backend.name}
+      BACKEND_SVC: http://${resources.backend.name}
 resources:
   backend:
     type: service
