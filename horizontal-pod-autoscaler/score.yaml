@@ -1,9 +1,11 @@
 apiVersion: score.dev/v1b1
 metadata:
-  name: example
+  name: my-workload
 containers:
-  main:
-    image: ghcr.io/stefanprodan/podinfo:latest
+  my-container:
+    image: busybox
+    command: ["/bin/sh"]
+    args: ["-c", "while true; do echo Hello HPA; sleep 5; done"]
 resources:
   hpa:
     type: horizontal-pod-autoscaler
