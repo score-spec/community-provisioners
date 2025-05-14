@@ -4,6 +4,11 @@ This is a library of additional provisioners that you can use with either `score
 
 ## For `score-compose`
 
+Example of usage with the `10-redis-dapr-state-store.provisioners.yaml` provisioner:
+```bash
+score-compose init --provisioners https://raw.githubusercontent.com/score-spec/community-provisioners/refs/heads/main/dapr-state-store/score-compose/10-redis-dapr-state-store.provisioners.yaml
+```
+
 | File | Type | Class | Params | Outputs | Description
 | ---- | ---- | ----- | ------ | ------- | -----------
 | 10-redis-dapr-pubsub.provisioners.yaml      | `dapr-pubsub`               | (any)   | (none)            | `name`           | Generates a Dapr PubSub `Component` pointing to a Redis `Service`.
@@ -14,6 +19,11 @@ This is a library of additional provisioners that you can use with either `score
 | 10-service.provisioners.yaml                | `service`                   | (any)   | (none)            | `name`           | Outputs the name of the Workload dependency if it exists in the list of Workloads.
 
 ## For `score-k8s`
+
+Example of usage with the `10-redis-dapr-state-store.provisioners.yaml` provisioner:
+```bash
+score-k8s init --provisioners https://raw.githubusercontent.com/score-spec/community-provisioners/refs/heads/main/dapr-state-store/score-k8s/10-redis-dapr-state-store.provisioners.yaml
+```
 
 | File | Type | Class | Params | Outputs | Description
 | ---- | ---- | ----- | ------ | ------- | -----------
@@ -28,7 +38,3 @@ This is a library of additional provisioners that you can use with either `score
 | 10-ingress-route.provisioners.yaml            | `route`                     | (any)   | `host`, `path`, `port`                                                 | (none)                                  | Provisions an Ingress route on a shared Nginx instance.
 | 10-shared-gateway-httproute.provisioners.yaml | `route`                     | (any)   | `host`, `path`, `port`                                                 | (none)                                  | Generates an `HTTPRoute` attached to a shared `Gateway`.
 | 10-service.provisioners.yaml                  | `service`                   | (any)   | (none)                                                                 | `name`                                  | Outputs the name of the Workload dependency if it exists in the list of Workloads.
-
-## Examples
-
-See all the examples about how to use them [here](./examples/).
