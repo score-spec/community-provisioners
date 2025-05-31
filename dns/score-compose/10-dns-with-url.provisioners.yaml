@@ -2,7 +2,7 @@
   type: dns
   description: Outputs a *.localhost domain as the hostname and associated URL in http on port 8080
   init: |
-    randomHostname: localhost
+    randomHostname: dns{{ randAlphaNum 6 | lower }}.localhost
   state: |
     instanceHostname: {{ dig "instanceHostname" .Init.randomHostname .State | quote }}
   outputs: |
