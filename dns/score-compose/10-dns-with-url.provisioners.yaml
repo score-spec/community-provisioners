@@ -1,6 +1,6 @@
 - uri: template://community-provisioners/dns-with-route
   type: dns
-  description: Outputs localhost as the hostname and the url in http on port 8080
+  description: Outputs a *.localhost domain as the hostname and associated URL in http on port 8080
   init: |
     randomHostname: localhost
   state: |

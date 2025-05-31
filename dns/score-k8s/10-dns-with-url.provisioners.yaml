@@ -1,6 +1,6 @@
 - uri: template://default-provisioners/dns-with-url
   type: dns
-  description: Outputs localhost as the hostname and the url in http on port 80
+  description: Outputs a *.localhost domain as the hostname and associated URL in http on port 80
   init: |
     randomHostname: localhost
   state: |
