@@ -3,9 +3,9 @@ metadata:
   name: my-workload
 containers:
   my-container:
-    image: busybox
-    command: ["/bin/sh"]
-    args: ["-c", "while true; do echo Hello DNS; sleep 5; done"]
+    image: ghcr.io/stefanprodan/podinfo:latest
+    variables:
+      PODINFO_UI_MESSAGE: "Hello, ${resources.dns.host}!"
 resources:
   dns:
     type: dns
