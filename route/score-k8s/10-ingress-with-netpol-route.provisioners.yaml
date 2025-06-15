@@ -19,6 +19,9 @@
       kind: Ingress
       metadata:
         name: {{ .State.routeName }}
+        {{ if ne .Namespace "" }}
+        namespace: {{ .Namespace }}
+        {{ end }}
       spec:
         ingressClassName: nginx
         rules:
@@ -37,6 +40,9 @@
       kind: NetworkPolicy
       metadata:
         name: ingress-to-{{ .SourceWorkload }}
+        {{ if ne .Namespace "" }}
+        namespace: {{ .Namespace }}
+        {{ end }}
       spec:
         podSelector:
           matchLabels:
