@@ -1,6 +1,6 @@
 - uri: template://community-provisioners/static-service-with-netpol
   type: service
-  description: Outputs the name of the Workload dependency if it exists in the list of Workloads.
+  description: Outputs the name of the Workload dependency if it exists in the list of Workloads, and generate NetworkPolicies between them.
   init: |
     name: {{ splitList "." .Id | last }}
   outputs: |
