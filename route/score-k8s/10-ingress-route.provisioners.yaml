@@ -19,6 +19,9 @@
       kind: Ingress
       metadata:
         name: {{ .State.routeName }}
+        {{ if ne .Namespace "" }}
+        namespace: {{ .Namespace }}
+        {{ end }}
       spec:
         ingressClassName: nginx
         rules:

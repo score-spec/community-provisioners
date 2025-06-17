@@ -14,6 +14,9 @@
       kind: NetworkPolicy
       metadata:
         name: {{ .Init.name }}-from-{{ .SourceWorkload }}-ingress
+        {{ if ne .Namespace "" }}
+        namespace: {{ .Namespace }}
+        {{ end }}
       spec:
         podSelector:
           matchLabels:
@@ -25,9 +28,9 @@
           - podSelector:
               matchLabels:
                 app.kubernetes.io/name: {{ .SourceWorkload }}
-            #namespaceSelector:
-            #  matchLabels:
-            #    kubernetes.io/metadata.name: FIXME
+            namespaceSelector:
+              matchLabels:
+                kubernetes.io/metadata.name: {{ .Namespace | default "default" }}
           ports:
           {{- range $k, $port := (index .WorkloadServices .Init.name).Ports }}
           - protocol: TCP
@@ -37,6 +40,9 @@
       kind: NetworkPolicy
       metadata:
         name: {{ .SourceWorkload }}-to-{{ .Init.name }}-egress
+        {{ if ne .Namespace "" }}
+        namespace: {{ .Namespace }}
+        {{ end }}
       spec:
         podSelector:
           matchLabels:
@@ -48,9 +54,9 @@
           - podSelector:
               matchLabels:
                 app.kubernetes.io/name: {{ .Init.name }}
-            #namespaceSelector:
-            #  matchLabels:
-            #    kubernetes.io/metadata.name: FIXME
+            namespaceSelector:
+              matchLabels:
+                kubernetes.io/metadata.name: {{ .Namespace | default "default" }}
           ports:
           {{- range $k, $port := (index .WorkloadServices .Init.name).Ports }}
           - protocol: TCP
