@@ -18,7 +18,6 @@ do
         echo "Skipped."
       else
         ${implementation%?} init --no-sample --provisioners $provisioner
-        export NAMESPACE=default
         ${implementation%?} generate $(ls score*.yaml)
         rm -r .${implementation%?}
       fi
