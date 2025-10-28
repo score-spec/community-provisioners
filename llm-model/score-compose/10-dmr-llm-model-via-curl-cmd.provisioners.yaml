@@ -16,6 +16,6 @@
         MODEL="ai/smollm2:135M-Q4_0"
       fi
       set -eu -o pipefail
-      curl -v -d '{"from":"'"$MODEL"'"}' "http://localhost:12434/models/create" >&2
+      curl -v -d '{"from":"'"$MODEL"'"}' "http://172.17.0.1:12434/models/create" >&2
       OUTPUTS='{"resource_outputs":{"model":"%s","url":"http://172.17.0.1:12434/engines/v1/","api-key":"not-needed"}}'
       printf "$OUTPUTS" "$MODEL"
