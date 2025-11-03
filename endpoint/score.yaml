@@ -18,5 +18,5 @@ resources:
     type: endpoint
     params:
       port: 8181
-      openapi_file: ./resources/backend-openapi.yaml
+      openapi_file: ./backend-openapi.yaml
       openapi_title: Order Service API
