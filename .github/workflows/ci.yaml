@@ -7,120 +7,42 @@ on:
     branches:
       - main
 jobs:
-  test-score-environment:
+  test-provisioners:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        score-target:
-          - score-compose
-          - score-k8s
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+      - name: set up docker-model-plugin (for llm-model)
+        run: |
+          # Add Docker's official GPG key:
+          sudo apt-get update
+          sudo apt-get install ca-certificates curl
+          sudo install -m 0755 -d /etc/apt/keyrings
+          sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
+          sudo chmod a+r /etc/apt/keyrings/docker.asc
+          
+          # Add the repository to Apt sources:
+          echo \
+          "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \
+          $(. /etc/os-release && echo "${UBUNTU_CODENAME:-$VERSION_CODENAME}") stable" | \
+          sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+          
+          # Update and Install
+          sudo apt-get update
+          sudo apt-get install -y docker-model-plugin
+      - name: setup-kind-cluster
+        run: |
+          .scripts/setup-kind-cluster.sh
       - uses: score-spec/setup-score@v2
         with:
-          file: ${{ matrix.score-target }}
+          file: score-compose
           version: latest
           token: ${{ secrets.GITHUB_TOKEN }}
-      - name: Generate
-        run: |
-          echo "TEST=test" > .env
-          ${{ matrix.score-target }} init --provisioners ${{ matrix.score-target }}/10-env.provisioners.yaml
-          ${{ matrix.score-target }} generate examples/environment/score.yaml
-  test-score-hpa:
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        score-target:
-          - score-compose
-          - score-k8s
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
       - uses: score-spec/setup-score@v2
         with:
-          file: ${{ matrix.score-target }}
+          file: score-k8s
           version: latest
           token: ${{ secrets.GITHUB_TOKEN }}
-      - name: Generate
+      - name: test-provisioners
         run: |
-          ${{ matrix.score-target }} init --provisioners ${{ matrix.score-target }}/10-hpa.provisioners.yaml
-          ${{ matrix.score-target }} generate examples/hpa/score.yaml
-  test-score-service:
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        score-target:
-          - score-compose
-          - score-k8s
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-      - uses: score-spec/setup-score@v2
-        with:
-          file: ${{ matrix.score-target }}
-          version: latest
-          token: ${{ secrets.GITHUB_TOKEN }}
-      - name: Generate
-        run: |
-          ${{ matrix.score-target }} init --provisioners ${{ matrix.score-target }}/10-service.provisioners.yaml
-          ${{ matrix.score-target }} generate examples/service/score.yaml examples/service/score-dep.yaml
-  test-score-redis-dapr-state-store:
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        score-target:
-          - score-k8s
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-      - uses: score-spec/setup-score@v2
-        with:
-          file: ${{ matrix.score-target }}
-          version: latest
-          token: ${{ secrets.GITHUB_TOKEN }}
-      - name: Generate
-        run: |
-          ${{ matrix.score-target }} init --provisioners ${{ matrix.score-target }}/10-redis-dapr-state-store.provisioners.yaml
-          ${{ matrix.score-target }} generate examples/redis-dapr-state-store/score.yaml
-  test-score-redis-helm-template:
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        score-target:
-          - score-k8s
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-      - uses: score-spec/setup-score@v2
-        with:
-          file: ${{ matrix.score-target }}
-          version: latest
-          token: ${{ secrets.GITHUB_TOKEN }}
-      - name: Generate
-        run: |
-          export NAMESPACE=default
-          ${{ matrix.score-target }} init --provisioners ${{ matrix.score-target }}/10-redis-helm-template.provisioners.yaml
-          ${{ matrix.score-target }} generate examples/redis-helm-template/score.yaml
-  test-score-redis-helm-upgrade:
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        score-target:
-          - score-k8s
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-      - uses: score-spec/setup-score@v2
-        with:
-          file: ${{ matrix.score-target }}
-          version: latest
-          token: ${{ secrets.GITHUB_TOKEN }}
-      - name: Prepare Kind cluster
-        run: |
-          ./scripts/setup-kind-cluster.sh
-      - name: Generate
-        run: |
-          export NAMESPACE=default
-          ${{ matrix.score-target }} init --provisioners ${{ matrix.score-target }}/10-redis-helm-upgrade.provisioners.yaml
-          ${{ matrix.score-target }} generate examples/redis-helm-upgrade/score.yaml
+          .scripts/test-provisioners.sh
