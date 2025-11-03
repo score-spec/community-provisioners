@@ -3,17 +3,22 @@
   description: Outputs an endpoint URL for connecting to an other workload (a Microcks mock is generated if not found).
   init: |
     hostname: {{ splitList "." .Id | last }}
-    # TODO: make it optional, retrieve from list if not provided.
-    port: {{ .Params.port }}
+    {{ $parsedPath := .Params.openapi_file | splitList "/" }}
+    {{ if eq (len $parsedPath) 0 }}
+    resourcesPath: "."
+    {{ else }}
+    resourcesPath: {{ trimSuffix (last $parsedPath) .Params.openapi_file | trimSuffix "/" }}
+    {{ end }}
   supported_params:
     - port
+    - openapi_file
+    - openapi_title
   outputs: |
     {{ $w := (index .WorkloadServices .Init.hostname) }}
     {{ if or (not $w) (not $w.ServiceName) }}
-    # FIXME: make it more generic for the last part of this URL.
-    url: http://localhost:9090/rest/Order+Service+API
+    url: http://localhost:9090/rest/{{ .Params.openapi_title | replace " " "+" }}
     {{ else }}
-    url: http://{{ .Init.hostname }}:{{ .Init.port }}
+    url: http://{{ .Init.hostname }}:{{ .Params.port }}
     {{ end }}
   expected_outputs:
     - url
@@ -26,7 +31,7 @@
       entrypoint:
         - "microcks-cli"
         - "import"
-        - "/resources/{{ .Init.hostname }}-openapi.yaml:true"
+        - "{{ .Params.openapi_file }}:true"
         - "--microcksURL=http://microcks:8080/api"
         - "--insecure"
         - "--keycloakClientId=foo"
@@ -37,7 +42,7 @@
       user: "65532"
       volumes:
       - type: bind
-        source: ./resources
+        source: {{ .Init.resourcesPath }}
         target: /resources
         read_only: true
       depends_on:
