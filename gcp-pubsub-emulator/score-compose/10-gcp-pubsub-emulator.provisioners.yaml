@@ -1,5 +1,5 @@
 # GCP Pub/Sub Emulator provisioner
-# 用於本地開發測試，不需要連到真正的 GCP
+# For local development and testing without connecting to real GCP
 - uri: template://community-provisioners/gcp-pubsub-emulator
   type: gcp-pubsub-emulator
   description: Generates a Google Cloud Pub/Sub Emulator service for local development.

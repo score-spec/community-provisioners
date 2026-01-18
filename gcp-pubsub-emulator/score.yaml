@@ -7,8 +7,12 @@ containers:
     command: ["/bin/sh"]
     args: ["-c", "while true; do echo $PUBSUB_EMULATOR_HOST; sleep 5; done"]
     variables:
-      PUBSUB_EMULATOR_HOST: "${resources.pubsub.emulator_host}"
+      PUBSUB_HOST: "${resources.pubsub.host}"
+      PUBSUB_PORT: "${resources.pubsub.port}"
       PUBSUB_PROJECT_ID: "${resources.pubsub.project_id}"
+      PUBSUB_EMULATOR_HOST: "${resources.pubsub.emulator_host}"
 resources:
   pubsub:
     type: gcp-pubsub-emulator
+    params:
+      project_id: my-test-project
