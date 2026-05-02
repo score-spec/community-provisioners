@@ -1,6 +1,6 @@
-- uri: cmd://bash#endpoint-with-microcks-cli
-  type: endpoint
-  description: Outputs an endpoint URL for connecting to an other workload (a Microcks mock is generated if not found).
+- uri: cmd://bash#service-with-microcks-cli
+  type: service
+  description: Outputs a service URL for connecting to an other workload (a Microcks mock is generated if not found).
   supported_params:
     - port
     - artifacts

@@ -1,6 +1,6 @@
-- uri: template://custom-provisioners/endpoint-with-microcks
-  type: endpoint
-  description: Outputs an endpoint URL for connecting to an other workload (a Microcks mock is generated if not found).
+- uri: template://custom-provisioners/service-with-microcks
+  type: service
+  description: Outputs a service URL for connecting to an other workload (a Microcks mock is generated if not found).
   init: |
     hostname: {{ splitList "." .Id | last }}
     {{ if .Params.artifacts }}
