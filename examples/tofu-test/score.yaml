@@ -1,0 +1,14 @@
+apiVersion: score.dev/v1b1
+metadata:
+  name: example
+containers:
+  main:
+    image: stefanprodan/podinfo
+    variables:
+      ver: ${resources.my-tofu.ver}
+      #REDIS_PORT: ${resources.my-redis.port}
+      #REDIS_USERNAME: ${resources.my-redis.username}
+      #REDIS_PASSWORD: ${resources.my-redis.password}
+resources:
+  my-tofu:
+    type: tofu

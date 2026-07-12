@@ -1,0 +1,9 @@
+- uri: cmd://bash#tofu-test
+  type: tofu
+  args:
+  - -c
+  - |
+    set -eu -o pipefail
+    VERSION=2
+    OUTPUTS='{"resource_outputs":{"ver":"%s"}}'
+    printf "$OUTPUTS"
