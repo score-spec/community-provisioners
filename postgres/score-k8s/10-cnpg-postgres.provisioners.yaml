@@ -1,0 +1,96 @@
+# CloudNativePG (CNPG) provisioner for the postgres resource type.
+# Each postgres resource gets its own CNPG Cluster, so the operator takes care of
+# the PVCs, the failover, the -rw/-ro/-r Services and the backups, instead of the
+# single-replica StatefulSet the built-in score-k8s provisioner generates.
+# The application credentials are generated here rather than by the operator, so
+# that the outputs stay stable across `score-k8s generate` runs.
+# See https://cloudnative-pg.io/documentation/current/quickstart/
+- uri: template://community-provisioners/cnpg-postgres
+  type: postgres
+  description: Generates a CloudNativePG Cluster and the Secret holding its application credentials.
+  supported_params:
+    - database
+    - username
+    - instances
+    - storage
+    - imageName
+  init: |
+    defaultDatabase: app
+    defaultUsername: app
+    defaultInstances: 1
+    defaultStorage: 1Gi
+    randomPassword: {{ randAlphaNum 16 | quote }}
+    # The CNPG webhook rejects Cluster names longer than 50 characters, so the
+    # workload name is truncated to keep "pg-<workload>-<8 chars of the guid>"
+    # under that limit. The guid suffix keeps the name unique anyway.
+    clusterName: pg-{{ .SourceWorkload | trunc 38 | trimSuffix "-" }}-{{ substr 0 8 .Guid | lower }}
+  state: |
+    cluster: {{ .Init.clusterName }}
+    secret: {{ .Init.clusterName }}-credentials
+    database: {{ dig "database" (.Params.database | default .Init.defaultDatabase) .State | quote }}
+    username: {{ dig "username" (.Params.username | default .Init.defaultUsername) .State | quote }}
+    password: {{ dig "password" .Init.randomPassword .State | quote }}
+  outputs: |
+    host: {{ .State.cluster }}-rw
+    port: 5432
+    name: {{ .State.database }}
+    database: {{ .State.database }}
+    username: {{ .State.username }}
+    password: {{ encodeSecretRef .State.secret "password" }}
+  expected_outputs:
+    - host
+    - port
+    - name
+    - database
+    - username
+    - password
+  manifests: |
+    # The owner of the database is bootstrapped from this Secret, so its username
+    # key has to match .spec.bootstrap.initdb.owner below.
+    - apiVersion: v1
+      kind: Secret
+      metadata:
+        name: {{ .State.secret }}
+        {{ if ne .Namespace "" }}
+        namespace: {{ .Namespace }}
+        {{ end }}
+        annotations:
+          k8s.score.dev/source-workload: {{ .SourceWorkload }}
+          k8s.score.dev/resource-uid: {{ .Uid }}
+          k8s.score.dev/resource-guid: {{ .Guid }}
+        labels:
+          app.kubernetes.io/managed-by: score-k8s
+          app.kubernetes.io/name: {{ .State.cluster }}
+          app.kubernetes.io/instance: {{ .State.cluster }}
+      type: kubernetes.io/basic-auth
+      data:
+        username: {{ .State.username | b64enc }}
+        password: {{ .State.password | b64enc }}
+    - apiVersion: postgresql.cnpg.io/v1
+      kind: Cluster
+      metadata:
+        name: {{ .State.cluster }}
+        {{ if ne .Namespace "" }}
+        namespace: {{ .Namespace }}
+        {{ end }}
+        annotations:
+          k8s.score.dev/source-workload: {{ .SourceWorkload }}
+          k8s.score.dev/resource-uid: {{ .Uid }}
+          k8s.score.dev/resource-guid: {{ .Guid }}
+        labels:
+          app.kubernetes.io/managed-by: score-k8s
+          app.kubernetes.io/name: {{ .State.cluster }}
+          app.kubernetes.io/instance: {{ .State.cluster }}
+      spec:
+        instances: {{ .Params.instances | default .Init.defaultInstances }}
+        {{ if .Params.imageName }}
+        imageName: {{ .Params.imageName | quote }}
+        {{ end }}
+        bootstrap:
+          initdb:
+            database: {{ .State.database | quote }}
+            owner: {{ .State.username | quote }}
+            secret:
+              name: {{ .State.secret }}
+        storage:
+          size: {{ .Params.storage | default .Init.defaultStorage | quote }}

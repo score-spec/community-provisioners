@@ -1,0 +1,20 @@
+apiVersion: score.dev/v1b1
+metadata:
+  name: my-workload
+containers:
+  my-container:
+    image: mirror.gcr.io/postgres:17-alpine
+    command: ["/bin/sh"]
+    args: ["-c", "while true; do psql -c 'SELECT version();'; sleep 5; done"]
+    # psql picks the connection up from the standard libpq environment variables.
+    variables:
+      PGHOST: "${resources.db.host}"
+      PGPORT: "${resources.db.port}"
+      PGDATABASE: "${resources.db.name}"
+      PGUSER: "${resources.db.username}"
+      PGPASSWORD: "${resources.db.password}"
+resources:
+  db:
+    type: postgres
+    params:
+      database: my-workload-db
